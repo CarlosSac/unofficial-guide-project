@@ -70,11 +70,13 @@ This knowledge is highly valuable because navigating engineering and computing d
      numbers fit the structure of your documents.
      A review-heavy corpus warrants different chunking than a long FAQ. -->
 
-**Chunk size:**
+**Chunk size:** 1000 characters (about 250 tokens) maximum per chunk, using recursive character splitting.
 
-**Overlap:**
+**Overlap:** 150 characters (15%).
 
-**Reasoning:**
+**Reasoning:** I use recursive character splitting rather than a plain fixed-size sliding window because my documents have strong explicit structure that lines up with topic boundaries. The splitter tries a priority list of separators (paragraph break `\n\n`, then line `\n`, then sentence, then word) and only falls back to a smaller separator when a piece is still over the size limit. It cuts on natural boundaries instead of slicing mid-sentence: each syllabus block (course description, required textbook, objectives, topics covered), each faculty profile, and the review clusters stay intact instead of being severed by a blind 1000-character cut. I considered semantic chunking but rejected it, because my documents already carry the structural delimiters that semantic chunking tries to rediscover, so recursive splitting captures the same boundaries directly.
+
+My documents are semantically dense, and each syllabus is a short self-contained block, faculty profiles are a few hundred words; and RateMyProfessors entries are short individual reviews. A 1000-character cap is large enough to hold a complete unit of meaning (one course's description plus objectives, one faculty bio, or a cluster of reviews for the same professor) but small enough that a query about a specific course or professor does not have to compete with unrelated text in the same chunk. I keep overlap modest (rather than larger) because the short review and profile documents are already self-contained, and heavy overlap there would just duplicate whole reviews and inflate the database without improving retrieval.
 
 ---
 
@@ -86,11 +88,11 @@ This knowledge is highly valuable because navigating engineering and computing d
      would you weigh in choosing a different embedding model — context length, multilingual
      support, accuracy on domain-specific text, latency? -->
 
-**Embedding model:**
+**Embedding model:** `all-MiniLM-L6-v2`
 
-**Top-k:**
+**Top-k:** 5. My chunks are small (about 250 tokens), so a single chunk rarely holds a full answer on its own. Retrieving 5 gives the generator enough coverage to assemble a grounded answer while staying low enough that the prompt is not flooded with loosely related chunks that pull the response off-topic. I will tune this during the evaluation phase if I see relevant chunks falling just outside the top results.
 
-**Production tradeoff reflection:**
+**Production tradeoff reflection:** I would think the main trade offs are the context length and domain accuracy. The biggest limitation of `all-MiniLM-L6-v2` is its short context window: it forces me to keep chunks small, which can split a full syllabus or a long degree-requirement section across multiple chunks. A longer-context model would let me embed an entire course syllabus or faculty profile as one unit, improving recall on questions that span a whole course. On domain accuracy, MiniLM is general-purpose and can struggle to separate semantically close items like adjacent course numbers, similar faculty research areas, or two professors with comparable reviews; a stronger or larger model would give sharper separation on this technical, name-heavy text. Multilingual support is not a real factor here because my corpus is entirely English.
 
 ---
 
@@ -101,13 +103,13 @@ This knowledge is highly valuable because navigating engineering and computing d
      is right or wrong. "What are good dining halls?" is too vague.
      "What do students say about wait times at [dining hall name] during lunch?" is testable. -->
 
-| #   | Question | Expected answer |
-| --- | -------- | --------------- |
-| 1   |          |                 |
-| 2   |          |                 |
-| 3   |          |                 |
-| 4   |          |                 |
-| 5   |          |                 |
+| #   | Question                                                                                                            | Expected answer                                                                                                                                                                                                                                                                                        |
+| --- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | What are the prerequisites and co-requisites for APCT 232 (Computer Science II Lecture)?                            | Prerequisite: APCT 231/233. Co-requisite: APCT 234. (Source: CS Syllabi Archive)                                                                                                                                                                                                                       |
+| 2   | Which textbook is used for APCT 110/111 Introduction to Programming, and who coordinates the course?                | The zyBooks electronic interactive textbook "Programming in Python 3"; coordinated by Dr. Briana Wellman. (Source: CS Syllabi Archive)                                                                                                                                                                 |
+| 3   | What lab software or simulator is used in the networking course CYSE 210?                                           | The CompTIA Network+ N10-007 Hands-on Lab Simulator (TestOut), included free on the companion site at testout.com. (Source: Cybersecurity Syllabi Archive)                                                                                                                                             |
+| 4   | Which cybersecurity course covers reverse engineering and malware analysis, and what hands-on work does it involve? | CYSE 320: Reverse Engineering and Malware Analysis. Students perform static and dynamic analysis of malware (including obfuscated malware) using reverse engineering tools; textbooks include "Practical Reverse Engineering" and "Learning Malware Analysis." (Source: Cybersecurity Syllabi Archive) |
+| 5   | What do students say about Dr. Li Chen's project expectations and lecture style?                                    | A summary grounded in the RateMyProfessors reviews for Dr. Chen (Source #29), e.g., commentary on project workload and teaching style. The key test is that the answer is attributed to the review source and is not invented or drawn from general knowledge.                                         |
 
 ---
 
@@ -117,9 +119,9 @@ This knowledge is highly valuable because navigating engineering and computing d
      Consider: noisy or inconsistent documents, missing source attribution, off-topic
      retrieval, chunks that split key information across boundaries. -->
 
-1.
+1. **Conflicting authority between archival syllabi and the current catalog.** My syllabi are aggregated from previous years and may list outdated prerequisites, textbooks, or policies, while the SEAS 2024-2026 catalog is current. A query about a course's prerequisites could retrieve a stale syllabus chunk that contradicts the catalog, and the embedding model has no notion of which source is more recent.
 
-2.
+2. **Cross-program and cross-faculty collisions in retrieval.** The corpus mixes CS, Cybersecurity, EE, and ME syllabi plus many faculty with overlapping research areas. Generic terms like "networks," "security," and "data structures," and reused course-number patterns, appear across multiple programs, so semantic search may return an EE or ME chunk for a CS question, or blend two professors with similar profiles into one answer.
 
 ---
 
@@ -130,6 +132,19 @@ This knowledge is highly valuable because navigating engineering and computing d
      Label each stage with the tool or library you're using.
      You can use ASCII art, a Mermaid diagram, or embed a sketch as an image.
      You'll use this diagram as context when prompting AI tools to implement each stage. -->
+
+```mermaid
+flowchart LR
+    A["Document<br/>Ingestion<br/><i>pdfplumber</i>"]
+    B["Chunking<br/><i>recursive splitter<br/>1000 / 150</i>"]
+    C["Embedding +<br/>Vector Store<br/><i>all-MiniLM-L6-v2<br/>ChromaDB</i>"]
+    D["Retrieval<br/><i>ChromaDB<br/>top-k = 5</i>"]
+    E["Generation<br/><i>Groq<br/>llama-3.3-70b-versatile</i>"]
+    F["Interface<br/><i>Gradio</i>"]
+
+    A --> B --> C --> D --> E --> F
+    F -- "user question" --> D
+```
 
 ---
 
@@ -145,8 +160,23 @@ This knowledge is highly valuable because navigating engineering and computing d
      "I'll give Claude my Chunking Strategy section and ask it to implement chunk_text()
      with my specified chunk size and overlap" is a plan. -->
 
-**Milestone 3 — Ingestion and chunking:**
+**Milestone 3, Ingestion and chunking:**
 
-**Milestone 4 — Embedding and retrieval:**
+- _Tool:_ Claude
+- _Input I will give it:_ My Documents table, the Chunking Strategy section, and the pdfplumber snippet. I will tell it the corpus is a mix of PDFs (syllabi, catalog, BSCS handout), one Markdown file, and saved web pages (faculty profiles, RateMyProfessors).
+- _What I expect it to produce:_ A `chunk_document()` function plus loaders that read each PDF with pdfplumber, read the Markdown directly, and parse the saved HTML, then clean each one (strip page numbers, headers/footers, navigation boilerplate, collapse whitespace) and return recursive-split chunks of 1000 characters with 150-character overlap, each carrying metadata for source, program, and person.
+- _How I will verify:_ Print a sample of chunks and confirm they respect my spec, that is each chunk is 1000 characters or fewer, splits is within the boundaries, and the attached metadata.
 
-**Milestone 5 — Generation and interface:**
+**Milestone 4, Embedding and retrieval:**
+
+- _Tool:_ Claude
+- _Input I will give it:_ My Retrieval Approach section (embedding model `all-MiniLM-L6-v2`, top-k = 5) and the chunk objects produced.
+- _What I expect it to produce:_ An `embed_and_store()` function that embeds chunks with sentence-transformers and writes them to ChromaDB with their metadata, and a `retrieve()` function that embeds the query, runs a semantic search, and returns the top 5 chunks with their text, metadata, and distance scores.
+- _How I will verify:_ Run my 5 evaluation questions and print the retrieved chunks with distances. I will check that low distances correspond to clearly relevant chunks and that questions about a specific course or professor return chunks from the right source and program.
+
+**Milestone 5, Generation and interface:**
+
+- _Tool:_ Claude.
+- _Input I will give it:_ The requirements to answer only from retrieved chunks and cite sources, the model id `llama-3.3-70b-versatile`, and the default Gradio interface.
+- _What I expect it to produce:_ A `generate_response()` function that builds a prompt from the retrieved chunks and the question, calls the Groq model with instructions to use only the provided context, and returns an answer with source attribution.
+- _How I will verify:_ Ask a question I know is answerable and confirm the answer is correct and cites the syllabus source. Then ask something not in any document and confirm the system says it does not know rather than inventing an answer.
