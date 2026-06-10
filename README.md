@@ -1,6 +1,8 @@
 # The Unofficial Guide — Project 1
 
-**Demo video:** [https://youtu.be/VxWKwnTghr4](https://youtu.be/VxWKwnTghr4)
+**Demo video -- click to watch:**
+
+[![Watch the demo on YouTube](documents/thumbnail.png)](https://youtu.be/VxWKwnTghr4)
 
 ---
 
