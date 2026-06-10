@@ -24,34 +24,10 @@ This knowledge is valuable because navigating an engineering degree requires und
 | 4   | Cybersecurity Syllabi Archive           | PDF          | `documents/Syllabi_Cybersecurity.pdf`                              |
 | 5   | UDC Links Master File                   | Markdown     | `documents/udc_links.md`                                           |
 | 6   | Department Main Page                    | Web          | `https://www.udc.edu/seas/computer-science/`                       |
-| 7   | Program Track: BSCS                     | Web          | `https://www.udc.edu/seas/computer-science/bs-in-computer-science` |
-| 8   | Program Track: BS Cybersecurity         | Web          | `https://www.udc.edu/seas/computer-science/bs-cybersecurity`       |
-| 9   | Program Track: MSCS                     | Web          | `https://www.udc.edu/seas/computer-science/ms-in-computer-science` |
-| 10  | Program Track: MS Cybersecurity         | Web          | `https://www.udc.edu/seas/computer-science/ms-in-cybersecurity`    |
-| 11  | Program Track: ABM CS                   | Web          | `https://www.udc.edu/seas/computer-science/abm-cs`                 |
+| 7   | Program Tracks (BS/MS CS, BS/MS Cyber, ABM) | Web      | Full list in `documents/udc_links.md`                              |
 | 12  | Official Prerequisite Map               | Web          | `https://www.udc.edu/seas/computer-science/prerequisite`           |
-| 13  | Faculty Profile: Dr. Amir Alipour-Fanid | Web          | `https://www.udc.edu/directory/profiles/seas/amir-alipour-fanid`   |
-| 14  | Faculty Profile: Prof. Uzma Amir        | Web          | `https://www.udc.edu/directory/profiles/seas/uzma-amir`            |
-| 15  | Faculty Profile: Dr. Sandra Brooks      | Web          | `https://www.udc.edu/directory/profiles/seas/sandra-brooks`        |
-| 16  | Faculty Profile: Dr. Li Chen            | Web          | `https://www.udc.edu/directory/profiles/seas/li-chen`              |
-| 17  | Faculty Profile: Dr. Anteneh Girma      | Web          | `https://www.udc.edu/directory/profiles/seas/anteneh-girma`        |
-| 18  | Faculty Profile: Dr. Dong Hyun Jeong    | Web          | `https://www.udc.edu/directory/profiles/seas/dong-jeong`           |
-| 19  | Faculty Profile: Dr. Thabet Kacem       | Web          | `https://www.udc.edu/directory/profiles/seas/thabet-kacem`         |
-| 20  | Faculty Profile: Dr. Junwhan Kim        | Web          | `https://www.udc.edu/directory/profiles/seas/justin-kim`           |
-| 21  | Faculty Profile: Dr. Lily Liang         | Web          | `https://www.udc.edu/directory/profiles/seas/lily-liang`           |
-| 22  | Faculty Profile: Dr. Hanney Shaban      | Web          | `https://www.udc.edu/directory/profiles/seas/hanney-shaban`        |
-| 23  | Faculty Profile: Dr. Briana Wellman     | Web          | `https://www.udc.edu/directory/profiles/seas/briana-wellman`       |
-| 24  | Faculty Profile: Dr. Byunggu Yu         | Web          | `https://www.udc.edu/directory/profiles/seas/byunggu-yu`           |
-| 25  | Faculty Profile: Prof. Temechu Zewdie   | Web          | `https://www.udc.edu/directory/profiles/seas/temechu-zewdie`       |
-| 26  | RateMyProfessors: Prof. Uzma Amir       | Web          | `https://www.ratemyprofessors.com/professor/2187367`               |
-| 27  | RateMyProfessors: Dr. Li Chen           | Web          | `https://www.ratemyprofessors.com/professor/782290`                |
-| 28  | RateMyProfessors: Dr. Anteneh Girma     | Web          | `https://www.ratemyprofessors.com/professor/3066315`               |
-| 29  | RateMyProfessors: Dr. Dong Hyun Jeong   | Web          | `https://www.ratemyprofessors.com/professor/2190879`               |
-| 30  | RateMyProfessors: Dr. Thabet Kacem      | Web          | `https://www.ratemyprofessors.com/professor/2774154`               |
-| 31  | RateMyProfessors: Dr. Junwhan Kim       | Web          | `https://www.ratemyprofessors.com/professor/1929211`               |
-| 32  | RateMyProfessors: Dr. Lily Liang        | Web          | `https://www.ratemyprofessors.com/professor/782307`                |
-| 33  | RateMyProfessors: Dr. Hanney Shaban     | Web          | `https://www.ratemyprofessors.com/professor/1812839`               |
-| 34  | RateMyProfessors: Prof. Temechu Zewdie  | Web          | `https://www.ratemyprofessors.com/professor/2941232`               |
+| 13  | Faculty Profiles (13 professors)        | Web          | Full list in `documents/udc_links.md`                              |
+| 14  | RateMyProfessors Reviews (9 professors) | Web          | Full list in `documents/udc_links.md`                              |
 
 ---
 
