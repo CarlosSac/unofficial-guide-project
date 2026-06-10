@@ -18,3 +18,8 @@ chroma/
 
 # macOS
 .DS_Store
+
+# Generated pipeline artifacts (rebuild with ingest.py / retriever.py)
+chunks.json
+raw_text/
+cleaned/
