@@ -1,4 +1,4 @@
-"""Generation and Gradio interface for The Unofficial Guide (Milestone 5).
+"""Generation and Gradio interface for The UDC Unofficial Guide (Milestone 5).
 
 Pipeline stage (see planning.md architecture diagram):
     query -> retrieve() -> build_context() -> Groq -> format_sources() -> Gradio
@@ -40,7 +40,7 @@ def _get_client():
 
 
 _SYSTEM_PROMPT = """\
-You are The Unofficial Guide, a student advisor for the Computer Science \
+You are The UDC Unofficial Guide, a student advisor for the Computer Science \
 and Cybersecurity programs at the University of the District of Columbia (UDC).
 
 Answer ONLY using the numbered context passages provided in the user message. \
@@ -109,11 +109,11 @@ def handle_query(question: str) -> str:
     chunks = retrieve(question)
     answer_text = generate_response(question, chunks)
     sources = _format_sources(chunks)
-    return f"{answer_text}\n\n**Sources consulted:**\n{sources}"
+    return f"{answer_text}\n\n**Sources:**\n{sources}"
 
 
-with gr.Blocks(title="The Unofficial Guide") as demo:
-    gr.Markdown("# The Unofficial Guide")
+with gr.Blocks(title="The UDC Unofficial Guide") as demo:
+    gr.Markdown("# The UDC Unofficial Guide")
     gr.Markdown(
         "Ask about courses, prerequisites, faculty, and student reviews "
         "for the UDC Computer Science and Cybersecurity programs. "
