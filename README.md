@@ -1,10 +1,6 @@
 # The Unofficial Guide — Project 1
 
-**Demo video -- click to watch:**
 
-[![Watch the demo on YouTube](documents/thumbnail.png)](https://youtu.be/VxWKwnTghr4)
-
----
 
 ## Domain
 
@@ -107,3 +103,10 @@ This knowledge is valuable because navigating an engineering degree requires und
 - _What I gave the AI:_ The Milestone 5 requirements from planning.md, the architecture diagram, and the existing `retrieve()` function signature.
 - _What it produced:_ `app.py` with a `generate_response()` function.
 - _What I changed or overrode:_ The initial system prompt used polite language ("please use only the provided context") that left the model room to draw on outside knowledge. I rewrote it to use absolute constraints ("Answer ONLY", "Do not use outside knowledge") and added an explicit fallback phrase the model must produce when the answer is absent, making the no-answer case testable.
+
+---
+**Demo video
+
+[![Watch the demo on YouTube](documents/thumbnail.png)](https://youtu.be/VxWKwnTghr4)
+
+---
